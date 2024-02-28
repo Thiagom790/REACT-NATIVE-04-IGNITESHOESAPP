@@ -13,12 +13,22 @@ import { THEME } from "./src/theme";
 import { Loading } from "./src/components/Loading";
 
 import { CartContextProvider } from "./src/contexts/CartContext";
+// import {
+//   tagUserEmailCreate,
+//   tagUserEmailRemove,
+//   tagUserInfoCreate,
+// } from "./src/notifications/notificationsTag";
 
 OneSignal.initialize("753fcff5-c74e-487f-84f5-22361d9a757d");
 OneSignal.Notifications.requestPermission(true); // necessary to receive notifications
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
+
+  // Example OneSignal Tags
+  // tagUserEmailCreate("test@test.com");
+  // tagUserEmailRemove();
+  // tagUserInfoCreate();
 
   return (
     <NativeBaseProvider theme={THEME}>
