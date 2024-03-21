@@ -10,6 +10,21 @@ import {
 import { AppRoutes } from "./app.routes";
 import { Notification } from "../components/Notification";
 
+// to test use command: npx uri-scheme open igniteshoesapp://details/1 --android
+const linking = {
+  prefixes: ["com.thiagocompany.igniteshoesapp://", "igniteshoesapp://"],
+  config: {
+    screens: {
+      details: {
+        path: "details/:productId",
+        parse: {
+          productId: (productId: string) => productId,
+        },
+      },
+    },
+  },
+};
+
 export function Routes() {
   const [notification, setNotification] = useState<null | OSNotification>(null);
   const { colors } = useTheme();
@@ -37,7 +52,7 @@ export function Routes() {
   }, []);
 
   return (
-    <NavigationContainer theme={theme}>
+    <NavigationContainer theme={theme} linking={linking}>
       <AppRoutes />
       {notification && (
         <Notification

@@ -8,7 +8,8 @@ import {
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { OSNotification } from "react-native-onesignal";
-import { useNavigation } from "@react-navigation/native";
+// import { useNavigation } from "@react-navigation/native";
+import * as Linking from "expo-linking";
 
 type Props = {
   data: OSNotification;
@@ -21,14 +22,26 @@ type AdditionalDataProps = {
 };
 
 export function Notification({ data, onClose }: Props) {
-  const { navigate } = useNavigation();
+  // const { navigate } = useNavigation();
   function handleOnPress() {
-    const { route, product_id } =
-      (data.additionalData as AdditionalDataProps) || {};
+    // Versão alternativa para não usar o deep link do OneSignal
+    // const { route, product_id } =
+    //   (data.additionalData as AdditionalDataProps) || {};
 
-    if (route === "details" && product_id) {
-      navigate(route, { productId: product_id });
+    // if (route === "details" && product_id) {
+    //   navigate(route, { productId: product_id });
 
+    //   onClose();
+    // }
+
+    // A lauchURL não está vindo na prop correta então precisamos
+    // pegar do rawPayload
+    const parsedPayload = JSON.parse(data.rawPayload.toString());
+    const launchURL = JSON.parse(parsedPayload.custom).u;
+
+    // if (data.launchURL) { // não estava funcionando
+    if (launchURL) {
+      Linking.openURL(launchURL);
       onClose();
     }
   }
